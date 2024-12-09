@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from "zustand/middleware";
 
 // 定義狀態類型
 export interface DataState {
@@ -11,17 +12,20 @@ export interface DataState {
 }
 
 // 建立store
-export const useData = create<DataState>((set) => ({
-	name: "",
-	email: "",
-	age: 0,
-	setName: (name) => {
-		set({ name });
-	},
-	setEmail: (email) => {
-		set({ email });
-	},
-	setAge: (age) => {
-		set({ age });
-	},
-}));
+export const useData = create<DataState>()(
+	persist(
+		(set) => ({
+			name: "",
+			email: "",
+			age: 0,
+			setName: (name) => set({ name }),
+			setEmail: (email) => set({ email }),
+			setAge: (age) => set({ age }),
+			clearUser: () => set({ name: "", email: "", age: 0 }),
+		}),
+		{
+			name: "user-storage",
+			storage: createJSONStorage(() => localStorage),
+		}
+	)
+);
