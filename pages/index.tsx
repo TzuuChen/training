@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, TextField } from "@mui/material";
 import { useRouter } from "next/router";
 
 import { useData } from "@/store";
+import { useTranslation } from "react-i18next";
 
 // TypeScript
 interface MyFormValues {
@@ -13,35 +14,53 @@ interface MyFormValues {
 	age: number;
 }
 
-// Yup
-const validationSchema = yup.object({
-	name: yup.string().required("姓名為必填項目"),
-	email: yup.string().email("Email格式不符").required("電子郵件為必填項目"),
-	age: yup
-		.number()
-		.typeError("年齡必須是數字")
-		.min(1, "年齡必須至少為 1 歲")
-		.max(120, "年齡不能超過 120 歲")
-		.required("年齡為必填項目"),
-});
-
 // React
 const MyApp = () => {
+	const { t } = useTranslation();
 	const { setName, setEmail, setAge } = useData();
 	const router = useRouter();
+
+	const labels = useMemo(
+		() => ({
+			name: t("name"),
+			email: t("email"),
+			age: t("age"),
+			submit: t("submit"),
+			validationSchema: yup.object({
+				name: yup.string().required(t("required_name")),
+				email: yup
+					.string()
+					.email(t("invalid_email"))
+					.required(t("required_email")),
+				age: yup
+					.number()
+					.typeError(t("must_be_number"))
+					.min(1, t("age_min"))
+					.max(120, t("age_max"))
+					.required(t("required_age")),
+			}),
+		}),
+		[t]
+	);
+
+	const handleSubmit = useCallback(
+		(values: MyFormValues) => {
+			setAge(values.age);
+			setEmail(values.email);
+			setName(values.name);
+			router.push("./data");
+		},
+		[setAge, setEmail, setName, router]
+	);
+
 	const formik = useFormik<MyFormValues>({
 		initialValues: {
 			name: "",
 			email: "",
 			age: 0,
 		},
-		validationSchema: validationSchema,
-		onSubmit: (values) => {
-			setAge(values.age);
-			setEmail(values.email);
-			setName(values.name);
-			router.push("./data");
-		},
+		validationSchema: labels.validationSchema,
+		onSubmit: handleSubmit,
 	});
 
 	return (
@@ -51,7 +70,7 @@ const MyApp = () => {
 					fullWidth
 					id="name"
 					name="name"
-					label="姓名"
+					label={labels.name}
 					value={formik.values.name}
 					onChange={formik.handleChange}
 					error={formik.touched.name && Boolean(formik.errors.name)}
@@ -61,7 +80,7 @@ const MyApp = () => {
 					fullWidth
 					id="email"
 					name="email"
-					label="電子郵件"
+					label={labels.email}
 					value={formik.values.email}
 					onChange={formik.handleChange}
 					error={formik.touched.email && Boolean(formik.errors.email)}
@@ -71,7 +90,7 @@ const MyApp = () => {
 					fullWidth
 					id="age"
 					name="age"
-					label="年齡"
+					label={labels.age}
 					type="number"
 					value={formik.values.age}
 					onChange={formik.handleChange}
@@ -83,7 +102,7 @@ const MyApp = () => {
 					variant="contained"
 					fullWidth
 					type="submit">
-					提交
+					{labels.submit}
 				</Button>
 			</form>
 		</div>

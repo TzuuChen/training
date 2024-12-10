@@ -1,0 +1,14 @@
+{
+	"name": "Name",
+	"email": "Email",
+	"age": "Age",
+	"submit": "Submit",
+	"resubmit": "Resubmit",
+	"required_name": "Name is required",
+	"invalid_email": "Invalid email format",
+	"required_email": "Email is required",
+	"required_age": "Age is required",
+	"age_min": "Age must be at least 1",
+	"age_max": "Age cannot exceed 120",
+	"must_be_number": "Age must be a number"
+}

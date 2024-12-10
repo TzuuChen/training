@@ -3,15 +3,23 @@ import { Button } from "@mui/material";
 import { useRouter } from "next/router";
 
 import { useData } from "@/store";
+import { useTranslation } from "react-i18next";
 const Data = () => {
 	const { name, email, age } = useData();
+	const { t } = useTranslation();
 	const router = useRouter();
 	return (
 		<>
 			<div>
-				<p>姓名: {name}</p>
-				<p>Email: {email}</p>
-				<p>年齡: {age}</p>
+				<p>
+					{t("name")}: {name}
+				</p>
+				<p>
+					{t("email")}: {email}
+				</p>
+				<p>
+					{t("age")}: {age}
+				</p>
 			</div>
 			<Button
 				color="primary"
@@ -20,7 +28,7 @@ const Data = () => {
 				onClick={() => {
 					router.push("./");
 				}}>
-				重新輸入資料
+				{t("resubmit")}
 			</Button>
 		</>
 	);

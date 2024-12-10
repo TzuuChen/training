@@ -1,0 +1,14 @@
+{
+	"name": "姓名",
+	"email": "電子郵件",
+	"age": "年齡",
+	"submit": "提交",
+	"resubmit": "重新提交",
+	"required_name": "姓名為必填項目",
+	"invalid_email": "Email格式不符",
+	"required_email": "電子郵件為必填項目",
+	"required_age": "年齡為必填項目",
+	"age_min": "年齡必須至少為 1 歲",
+	"age_max": "年齡不能超過 120 歲",
+	"must_be_number": "年齡必須是數字"
+}
