@@ -30,6 +30,7 @@ const Language = () => {
 			submit: t("submit"),
 			viewData: t("view_data"),
 			prePage: t("pre_page"),
+			changeLang: t("change_lang"),
 		}),
 		[t]
 	);
@@ -75,10 +76,16 @@ const Language = () => {
 		formik.validateForm();
 	}, [t]);
 
+	const changeLang = () => {
+		if (i18n.language == "zh") {
+			i18n.changeLanguage("en");
+		} else {
+			i18n.changeLanguage("zh");
+		}
+	};
+
 	return (
-		<div style={{ margin: 5 }}>
-			<Button onClick={() => i18n.changeLanguage("zh")}>中文</Button>
-			<Button onClick={() => i18n.changeLanguage("en")}>English</Button>
+		<div className="container">
 			<form onSubmit={formik.handleSubmit}>
 				<TextField
 					fullWidth
@@ -89,7 +96,7 @@ const Language = () => {
 					onChange={formik.handleChange}
 					error={formik.touched.name && Boolean(formik.errors.name)}
 					helperText={formik.touched.name && formik.errors.name}
-					style={{ marginBottom: 10 }}
+					className="form_textField"
 				/>
 				<TextField
 					fullWidth
@@ -100,7 +107,7 @@ const Language = () => {
 					onChange={formik.handleChange}
 					error={formik.touched.email && Boolean(formik.errors.email)}
 					helperText={formik.touched.email && formik.errors.email}
-					style={{ marginBottom: 10 }}
+					className="form_textField"
 				/>
 				<TextField
 					fullWidth
@@ -112,14 +119,14 @@ const Language = () => {
 					onChange={formik.handleChange}
 					error={formik.touched.age && Boolean(formik.errors.age)}
 					helperText={formik.touched.age && formik.errors.age}
-					style={{ marginBottom: 10 }}
+					className="form_textField"
 				/>
 				<Button
 					color="primary"
 					variant="contained"
 					fullWidth
 					type="submit"
-					style={{ marginBottom: 5 }}>
+					className="button">
 					{labels.submit}
 				</Button>
 			</form>
@@ -130,8 +137,16 @@ const Language = () => {
 				onClick={() => {
 					router.push("./data");
 				}}
-				style={{ marginBottom: 5 }}>
+				className="button">
 				{labels.viewData}
+			</Button>
+			<Button
+				color="primary"
+				variant="contained"
+				fullWidth
+				className="button"
+				onClick={changeLang}>
+				{labels.changeLang}
 			</Button>
 			<Button
 				color="primary"
@@ -140,7 +155,7 @@ const Language = () => {
 				onClick={() => {
 					router.push("./");
 				}}
-				style={{ marginBottom: 5 }}>
+				className="button">
 				{labels.prePage}
 			</Button>
 		</div>

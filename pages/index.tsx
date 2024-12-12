@@ -2,7 +2,7 @@ import React, { useMemo, useCallback } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, TextField } from "@mui/material";
-import "@/app/i18n";
+import i18n from "@/app/i18n";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
 
@@ -71,8 +71,17 @@ const MyApp = () => {
 		onSubmit: handleSubmit,
 	});
 
+	const changeLang = () => {
+		if (i18n.language == "zh") {
+			i18n.changeLanguage("en");
+		} else {
+			i18n.changeLanguage("zh");
+		}
+		router.push("./lang");
+	};
+
 	return (
-		<div style={{ margin: 5 }}>
+		<div className="container">
 			<form onSubmit={formik.handleSubmit}>
 				<TextField
 					fullWidth
@@ -83,7 +92,7 @@ const MyApp = () => {
 					onChange={formik.handleChange}
 					error={formik.touched.name && Boolean(formik.errors.name)}
 					helperText={formik.touched.name && formik.errors.name}
-					style={{ marginBottom: 10 }}
+					className="form_textField"
 				/>
 				<TextField
 					fullWidth
@@ -94,7 +103,7 @@ const MyApp = () => {
 					onChange={formik.handleChange}
 					error={formik.touched.email && Boolean(formik.errors.email)}
 					helperText={formik.touched.email && formik.errors.email}
-					style={{ marginBottom: 10 }}
+					className="form_textField"
 				/>
 				<TextField
 					fullWidth
@@ -106,14 +115,14 @@ const MyApp = () => {
 					onChange={formik.handleChange}
 					error={formik.touched.age && Boolean(formik.errors.age)}
 					helperText={formik.touched.age && formik.errors.age}
-					style={{ marginBottom: 10 }}
+					className="form_textField"
 				/>
 				<Button
 					color="primary"
 					variant="contained"
 					fullWidth
 					type="submit"
-					style={{ marginBottom: 5 }}>
+					className="button">
 					{labels.submit}
 				</Button>
 			</form>
@@ -121,7 +130,7 @@ const MyApp = () => {
 				color="primary"
 				variant="contained"
 				fullWidth
-				style={{ marginBottom: 5 }}
+				className="button"
 				onClick={() => {
 					router.push("./data");
 				}}>
@@ -131,10 +140,8 @@ const MyApp = () => {
 				color="primary"
 				variant="contained"
 				fullWidth
-				style={{ marginBottom: 5 }}
-				onClick={() => {
-					router.push("./lang");
-				}}>
+				className="button"
+				onClick={changeLang}>
 				{labels.changeLang}
 			</Button>
 		</div>
