@@ -2,10 +2,11 @@ import React, { useMemo, useCallback } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, TextField } from "@mui/material";
+import "@/app/i18n";
+import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
 
 import { useData } from "@/store";
-import { useTranslation } from "react-i18next";
 
 // TypeScript
 interface MyFormValues {
@@ -20,7 +21,7 @@ const MyApp = () => {
 	const { setName, setEmail, setAge } = useData();
 	const router = useRouter();
 
-	// lang
+	// langLables
 	const labels = useMemo(
 		() => ({
 			name: t("name"),
@@ -29,22 +30,26 @@ const MyApp = () => {
 			submit: t("submit"),
 			viewData: t("view_data"),
 			changeLang: t("change_lang"),
-			validationSchema: yup.object({
-				name: yup.string().required(t("required_name")),
-				email: yup
-					.string()
-					.email(t("invalid_email"))
-					.required(t("required_email")),
-				age: yup
-					.number()
-					.typeError(t("must_be_number"))
-					.min(1, t("age_min"))
-					.max(120, t("age_max"))
-					.required(t("required_age")),
-			}),
 		}),
 		[t]
 	);
+
+	const validationSchema = useMemo(() => {
+		const schema = yup.object({
+			name: yup.string().required(t("required_name")),
+			email: yup
+				.string()
+				.email(t("invalid_email"))
+				.required(t("required_email")),
+			age: yup
+				.number()
+				.typeError(t("must_be_number"))
+				.min(1, t("age_min"))
+				.max(120, t("age_max"))
+				.required(t("required_age")),
+		});
+		return schema;
+	}, [t]);
 
 	const handleSubmit = useCallback(
 		(values: MyFormValues) => {
@@ -62,7 +67,7 @@ const MyApp = () => {
 			email: "",
 			age: 0,
 		},
-		validationSchema: labels.validationSchema,
+		validationSchema: validationSchema,
 		onSubmit: handleSubmit,
 	});
 
@@ -116,20 +121,20 @@ const MyApp = () => {
 				color="primary"
 				variant="contained"
 				fullWidth
+				style={{ marginBottom: 5 }}
 				onClick={() => {
 					router.push("./data");
-				}}
-				style={{ marginBottom: 5 }}>
+				}}>
 				{labels.viewData}
 			</Button>
 			<Button
 				color="primary"
 				variant="contained"
 				fullWidth
+				style={{ marginBottom: 5 }}
 				onClick={() => {
 					router.push("./lang");
-				}}
-				style={{ marginBottom: 5 }}>
+				}}>
 				{labels.changeLang}
 			</Button>
 		</div>

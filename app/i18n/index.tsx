@@ -15,7 +15,7 @@ const resources = {
 
 i18n.use(initReactI18next).init({
 	resources,
-	fallbackLng: "zh_TW", // 如果當前切換的語言沒有對應的翻譯則使用這個語言
+	fallbackLng: "zh_TW",
 	lng: "zh_TW", // 預設語言
 	interpolation: {
 		escapeValue: false,
