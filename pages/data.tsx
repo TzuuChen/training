@@ -37,7 +37,15 @@ const Data = () => {
 				onClick={() => {
 					router.push("./lang");
 				}}>
-				{name == "" ? <>{t("submit")}</> : <>{t("resubmit")}</>}
+				{name == "" ? (
+					<>
+						{t("GO")}{t("submit")}／{t("change_lang")}
+					</>
+				) : (
+					<>
+						{t("resubmit")}／{t("change_lang")}
+					</>
+				)}
 			</Button>
 		</>
 	);
