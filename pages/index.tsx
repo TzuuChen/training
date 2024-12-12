@@ -71,12 +71,9 @@ const MyApp = () => {
 		onSubmit: handleSubmit,
 	});
 
-	const changeLang = () => {
-		if (i18n.language == "zh") {
-			i18n.changeLanguage("en");
-		} else {
-			i18n.changeLanguage("zh");
-		}
+	const changeLang = async () => {
+		const newLang = i18n.language === "zh" ? "en" : "zh";
+		await i18n.changeLanguage(newLang);
 		router.push("./lang");
 	};
 
@@ -141,7 +138,9 @@ const MyApp = () => {
 				variant="contained"
 				fullWidth
 				className="button"
-				onClick={changeLang}>
+				onClick={() => {
+					changeLang();
+				}}>
 				{labels.changeLang}
 			</Button>
 		</div>
