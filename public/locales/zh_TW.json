@@ -13,5 +13,6 @@
 	"required_age": "年齡為必填項目",
 	"age_min": "年齡必須至少為 1 歲",
 	"age_max": "年齡不能超過 120 歲",
-	"must_be_number": "年齡必須是數字"
+	"must_be_number": "年齡必須是數字",
+	"no_data": "沒有資料！請先提交"
 }

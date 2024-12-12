@@ -13,5 +13,6 @@
 	"required_age": "Age is required",
 	"age_min": "Age must be at least 1",
 	"age_max": "Age cannot exceed 120",
-	"must_be_number": "Age must be a number"
+	"must_be_number": "Age must be a number",
+	"no_data": "No data, please submit first"
 }

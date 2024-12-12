@@ -10,17 +10,26 @@ const Data = () => {
 	const router = useRouter();
 	return (
 		<>
-			<div>
-				<p>
-					{t("name")}: {name}
-				</p>
-				<p>
-					{t("email")}: {email}
-				</p>
-				<p>
-					{t("age")}: {age}
-				</p>
-			</div>
+			{name == "" ? (
+				<>
+					<div>{t("no_data")}</div>
+				</>
+			) : (
+				<>
+					<div>
+						<p>
+							{t("name")}: {name}
+						</p>
+						<p>
+							{t("email")}: {email}
+						</p>
+						<p>
+							{t("age")}: {age}
+						</p>
+					</div>
+				</>
+			)}
+
 			<Button
 				color="primary"
 				variant="contained"
@@ -28,7 +37,7 @@ const Data = () => {
 				onClick={() => {
 					router.push("./lang");
 				}}>
-				{t("resubmit")}
+				{name == "" ? <>{t("submit")}</> : <>{t("resubmit")}</>}
 			</Button>
 		</>
 	);

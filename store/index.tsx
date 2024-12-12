@@ -21,7 +21,6 @@ export const useData = create<DataState>()(
 			setName: (name) => set({ name }),
 			setEmail: (email) => set({ email }),
 			setAge: (age) => set({ age }),
-			clearUser: () => set({ name: "", email: "", age: 0 }),
 		}),
 		{
 			name: "user-storage",
