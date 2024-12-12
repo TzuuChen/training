@@ -15,8 +15,8 @@ const resources = {
 
 i18n.use(initReactI18next).init({
 	resources,
-	fallbackLng: "zh_TW",
-	lng: "zh_TW", // 預設語言
+	fallbackLng: "zh",
+	lng: "zh", // 預設語言
 	interpolation: {
 		escapeValue: false,
 	},
