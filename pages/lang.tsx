@@ -1,11 +1,12 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo, useCallback, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { Button, TextField } from "@mui/material";
+import i18n from "@/app/i18n";
+import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
 
 import { useData } from "@/store";
-import { useTranslation } from "react-i18next";
 
 // TypeScript
 interface MyFormValues {
@@ -15,12 +16,12 @@ interface MyFormValues {
 }
 
 // React
-const MyApp = () => {
+const Language = () => {
 	const { t } = useTranslation();
 	const { setName, setEmail, setAge } = useData();
 	const router = useRouter();
 
-	// lang
+	// langLables
 	const labels = useMemo(
 		() => ({
 			name: t("name"),
@@ -28,23 +29,27 @@ const MyApp = () => {
 			age: t("age"),
 			submit: t("submit"),
 			viewData: t("view_data"),
-			changeLang: t("change_lang"),
-			validationSchema: yup.object({
-				name: yup.string().required(t("required_name")),
-				email: yup
-					.string()
-					.email(t("invalid_email"))
-					.required(t("required_email")),
-				age: yup
-					.number()
-					.typeError(t("must_be_number"))
-					.min(1, t("age_min"))
-					.max(120, t("age_max"))
-					.required(t("required_age")),
-			}),
+			prePage: t("pre_page"),
 		}),
 		[t]
 	);
+
+	const validationSchema = useMemo(() => {
+		const schema = yup.object({
+			name: yup.string().required(t("required_name")),
+			email: yup
+				.string()
+				.email(t("invalid_email"))
+				.required(t("required_email")),
+			age: yup
+				.number()
+				.typeError(t("must_be_number"))
+				.min(1, t("age_min"))
+				.max(120, t("age_max"))
+				.required(t("required_age")),
+		});
+		return schema;
+	}, [t]);
 
 	const handleSubmit = useCallback(
 		(values: MyFormValues) => {
@@ -62,12 +67,18 @@ const MyApp = () => {
 			email: "",
 			age: 0,
 		},
-		validationSchema: labels.validationSchema,
+		validationSchema: validationSchema,
 		onSubmit: handleSubmit,
 	});
 
+	useEffect(() => {
+		formik.validateForm();
+	}, [t]);
+
 	return (
 		<div style={{ margin: 5 }}>
+			<Button onClick={() => i18n.changeLanguage("zh")}>中文</Button>
+			<Button onClick={() => i18n.changeLanguage("en")}>English</Button>
 			<form onSubmit={formik.handleSubmit}>
 				<TextField
 					fullWidth
@@ -127,13 +138,13 @@ const MyApp = () => {
 				variant="contained"
 				fullWidth
 				onClick={() => {
-					router.push("./lang");
+					router.push("./");
 				}}
 				style={{ marginBottom: 5 }}>
-				{labels.changeLang}
+				{labels.prePage}
 			</Button>
 		</div>
 	);
 };
 
-export default MyApp;
+export default Language;

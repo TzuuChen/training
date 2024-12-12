@@ -26,7 +26,7 @@ const Data = () => {
 				variant="contained"
 				fullWidth
 				onClick={() => {
-					router.push("./");
+					router.push("./lang");
 				}}>
 				{t("resubmit")}
 			</Button>
