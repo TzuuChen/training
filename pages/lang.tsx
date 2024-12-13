@@ -21,7 +21,7 @@ interface Labels {
 	age: string;
 	submit: string;
 	viewData: string;
-	prePage: string;
+	homePage: string;
 	changeLang: string;
 }
 
@@ -39,7 +39,7 @@ const Language: React.FC = () => {
 			age: t("age"),
 			submit: t("submit"),
 			viewData: t("view_data"),
-			prePage: t("pre_page"),
+			homePage: t("home_page"),
 			changeLang: t("change_lang"),
 		}),
 		[t]
@@ -168,7 +168,7 @@ const Language: React.FC = () => {
 					router.push("./");
 				}}
 				className="button">
-				{labels.prePage}
+				{labels.homePage}
 			</Button>
 		</div>
 	);
