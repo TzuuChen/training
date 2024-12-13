@@ -15,21 +15,31 @@ interface MyFormValues {
 	age: number;
 }
 
+interface Labels {
+	name: string;
+	email: string;
+	age: string;
+	submit: string;
+	viewData: string;
+	homePage: string;
+	changeLang: string;
+}
+
 // React
-const Language = () => {
+const Language: React.FC = () => {
 	const { t } = useTranslation();
-	const { setName, setEmail, setAge } = useData();
+	const { addUser } = useData();
 	const router = useRouter();
 
 	// langLables
-	const labels = useMemo(
+	const labels = useMemo<Labels>(
 		() => ({
 			name: t("name"),
 			email: t("email"),
 			age: t("age"),
 			submit: t("submit"),
 			viewData: t("view_data"),
-			prePage: t("pre_page"),
+			homePage: t("home_page"),
 			changeLang: t("change_lang"),
 		}),
 		[t]
@@ -54,12 +64,14 @@ const Language = () => {
 
 	const handleSubmit = useCallback(
 		(values: MyFormValues) => {
-			setAge(values.age);
-			setEmail(values.email);
-			setName(values.name);
+			addUser({
+				name: values.name,
+				age: values.age,
+				email: values.email,
+			});
 			router.push("./data");
 		},
-		[setAge, setEmail, setName, router]
+		[addUser, router]
 	);
 
 	const formik = useFormik<MyFormValues>({
@@ -156,7 +168,7 @@ const Language = () => {
 					router.push("./");
 				}}
 				className="button">
-				{labels.prePage}
+				{labels.homePage}
 			</Button>
 		</div>
 	);

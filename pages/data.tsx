@@ -1,33 +1,53 @@
 import React from "react";
-import { Button } from "@mui/material";
+import {
+	Button,
+	List,
+	ListItem,
+	ListItemText,
+	Typography,
+} from "@mui/material";
 import { useRouter } from "next/router";
 
 import { useData } from "@/store";
 import { useTranslation } from "react-i18next";
-const Data = () => {
-	const { name, email, age } = useData();
+
+interface User {
+	name: string;
+	email: string;
+	age: number;
+}
+
+const Data: React.FC = () => {
+	const { users }: { users: User[] } = useData();
 	const { t } = useTranslation();
 	const router = useRouter();
+
+	const latestUser = users[users.length - 1];
+
 	return (
 		<>
-			{name == "" ? (
-				<>
-					<div>{t("no_data")}</div>
-				</>
+			{latestUser ? (
+				<List>
+					<ListItem key={1}>
+						<ListItemText
+							primary={`${t("name")}: ${latestUser.name}`}
+							secondary={
+								<Typography
+									component="span"
+									variant="body2"
+									sx={{
+										color: "text.primary",
+										display: "inline",
+									}}>
+									{t("email")}：{latestUser.email}／{t("age")}
+									：{latestUser.age}
+								</Typography>
+							}
+						/>
+					</ListItem>
+				</List>
 			) : (
-				<>
-					<div>
-						<p>
-							{t("name")}: {name}
-						</p>
-						<p>
-							{t("email")}: {email}
-						</p>
-						<p>
-							{t("age")}: {age}
-						</p>
-					</div>
-				</>
+				<div>{t("no_data")}</div>
 			)}
 
 			<Button
@@ -37,13 +57,14 @@ const Data = () => {
 				onClick={() => {
 					router.push("./lang");
 				}}>
-				{name == "" ? (
+				{users.length === 0 ? (
 					<>
-						{t("GO")}{t("submit")}／{t("change_lang")}
+						{t("GO")}
+						{t("submit")}／{t("change_lang")}
 					</>
 				) : (
 					<>
-						{t("resubmit")}／{t("change_lang")}
+						{t("submit")}／{t("change_lang")}
 					</>
 				)}
 			</Button>

@@ -5,7 +5,6 @@ import { Button, TextField } from "@mui/material";
 import i18n from "@/app/i18n";
 import { useTranslation } from "react-i18next";
 import { useRouter } from "next/router";
-
 import { useData } from "@/store";
 
 // TypeScript
@@ -15,14 +14,21 @@ interface MyFormValues {
 	age: number;
 }
 
-// React
-const MyApp = () => {
+interface Labels {
+	name: string;
+	email: string;
+	age: string;
+	submit: string;
+	viewData: string;
+	changeLang: string;
+}
+
+const MyApp: React.FC = () => {
 	const { t } = useTranslation();
-	const { setName, setEmail, setAge } = useData();
+	const { addUser } = useData();
 	const router = useRouter();
 
-	// langLables
-	const labels = useMemo(
+	const labels = useMemo<Labels>(
 		() => ({
 			name: t("name"),
 			email: t("email"),
@@ -53,13 +59,21 @@ const MyApp = () => {
 
 	const handleSubmit = useCallback(
 		(values: MyFormValues) => {
-			setAge(values.age);
-			setEmail(values.email);
-			setName(values.name);
+			addUser({
+				name: values.name,
+				age: values.age,
+				email: values.email,
+			});
 			router.push("./data");
 		},
-		[setAge, setEmail, setName, router]
+		[addUser, router]
 	);
+
+	const changeLang = async (): Promise<void> => {
+		const newLang = i18n.language === "zh" ? "en" : "zh";
+		await i18n.changeLanguage(newLang);
+		router.push("./lang");
+	};
 
 	const formik = useFormik<MyFormValues>({
 		initialValues: {
@@ -70,12 +84,6 @@ const MyApp = () => {
 		validationSchema: validationSchema,
 		onSubmit: handleSubmit,
 	});
-
-	const changeLang = async () => {
-		const newLang = i18n.language === "zh" ? "en" : "zh";
-		await i18n.changeLanguage(newLang);
-		router.push("./lang");
-	};
 
 	return (
 		<div className="container">
