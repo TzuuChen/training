@@ -2,25 +2,24 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
 // 定義狀態類型
-export interface DataState {
+export interface User {
 	name: string;
 	email: string;
 	age: number;
-	setName: (name: string) => void;
-	setEmail: (email: string) => void;
-	setAge: (age: number) => void;
+}
+
+export interface DataState {
+	users: User[];
+	addUser: (newUser: User) => void;
 }
 
 // 建立store
 export const useData = create<DataState>()(
 	persist(
 		(set) => ({
-			name: "",
-			email: "",
-			age: 0,
-			setName: (name) => set({ name }),
-			setEmail: (email) => set({ email }),
-			setAge: (age) => set({ age }),
+			users: [],
+			addUser: (newUser) =>
+				set((state) => ({ users: [...state.users, newUser] })),
 		}),
 		{
 			name: "user-storage",
