@@ -1,9 +1,9 @@
-.container {
+body .container {
 	margin: 5px;
 }
-.form_textField {
+body .form_textField {
 	margin-bottom: 10px;
 }
-.button {
+body .button {
 	margin-bottom: 5px;
 }
